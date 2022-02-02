@@ -11,18 +11,13 @@
     <None Remove="src\channel.txt" />
     <None Remove="src\cx.txt" />
     <None Remove="src\key.txt" />
+    <None Remove="src\keys.txt" />
     <None Remove="src\Token.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="src\cx.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="src\key.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="src\token.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="src\keys.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
