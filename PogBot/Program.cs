@@ -1,5 +1,4 @@
-﻿using Discord.Rest;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Discord.Commands;
 
