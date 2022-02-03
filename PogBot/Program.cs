@@ -3,41 +3,45 @@ using Discord;
 using Discord.WebSocket;
 using Discord.Commands;
 
-public class Program
+namespace PogBot
 {
-	private DiscordSocketClient client;
-	private CommandService commands;
-
-	private CommandHandler commandHandler;
-
-	public static Task Main(string[] args) => new Program().MainAsync();
-
-	public async Task MainAsync()
+	public class Program
 	{
-		Global.Setup();
+		private DiscordSocketClient client;
+		private CommandService commands;
 
-		client = new DiscordSocketClient();
-		client.Log += Log;
+		private CommandHandler commandHandler;
 
-		await client.LoginAsync(TokenType.Bot, Global.Instance.token);
-		await client.StartAsync();
+		public static Task Main(string[] args) => new Program().MainAsync();
 
-		commands = new CommandService();
-		commandHandler = new CommandHandler(client, commands);
+		public async Task MainAsync()
+		{
+			Global.Setup();
 
-		await commandHandler.InstallCommandsAsync();
+			client = new DiscordSocketClient();
+			client.Log += Log;
 
-		while (Console.ReadKey().Key != ConsoleKey.Escape)
-        {
+			await client.LoginAsync(TokenType.Bot, Global.Instance.token);
+			await client.StartAsync();
 
-        };
+			commands = new CommandService();
+			commandHandler = new CommandHandler(client, commands);
 
-		await client.StopAsync();
+			await commandHandler.InstallCommandsAsync();
+
+			while (Console.ReadKey().Key != ConsoleKey.Escape)
+			{
+
+			};
+
+			Global.Shutdown();
+			await client.StopAsync();
+		}
+
+		private Task Log(LogMessage msg)
+		{
+			Console.WriteLine(msg.ToString());
+			return Task.CompletedTask;
+		}
 	}
-
-	private Task Log(LogMessage msg)
-    {
-		Console.WriteLine(msg.ToString());
-		return Task.CompletedTask;
-    }
 }

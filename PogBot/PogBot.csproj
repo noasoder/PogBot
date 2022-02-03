@@ -12,6 +12,7 @@
     <None Remove="src\cx.txt" />
     <None Remove="src\key.txt" />
     <None Remove="src\keys.txt" />
+    <None Remove="src\saved_images.txt" />
     <None Remove="src\Token.txt" />
   </ItemGroup>
 
@@ -19,6 +20,7 @@
     <Content Include="src\keys.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="src\saved_images.txt" />
   </ItemGroup>
 
   <ItemGroup>
