@@ -33,9 +33,9 @@ namespace PogBot
 
             // Create a number to track where the prefix ends and the command begins
             int argPos = 0;
-
+            
             // Determine if the message is a command based on the prefix and make sure no bots trigger commands
-            if (!(message.HasStringPrefix(Global.discordCommand, ref argPos) ||
+            if (!(message.HasStringPrefix(Global.discordCommand, ref argPos, StringComparison.OrdinalIgnoreCase) ||
                 message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
                 message.Author.IsBot)
                 return;
@@ -55,7 +55,14 @@ namespace PogBot
 
 
             var imageURL = await Search.GetImage(customSearch);
-            await Search.SaveImageRef(imageURL);
+
+            if (imageURL.Equals(""))
+                imageURL = Global.noImageMessage;
+            if (imageURL.Equals(Global.noImageMessage))
+                Console.WriteLine(Global.noImageMessage);
+            else
+                await Search.SaveImageRef(imageURL);
+
             await message.Channel.SendMessageAsync(imageURL);
         }
     }

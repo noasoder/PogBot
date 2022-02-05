@@ -36,7 +36,7 @@ namespace PogBot
             {
 				if(!await Global.IsInSaved(image))
                 {
-					Console.WriteLine("ImageLink: " + result);
+					Console.WriteLine("ImageLink: " + image);
 					return image;
                 }
             }
