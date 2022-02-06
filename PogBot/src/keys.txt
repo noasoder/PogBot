@@ -1,3 +1,3 @@
-token=OTM4MDUwNjI0NzY1OTY4Mzg0.YfkpuQ.RgERBG5Xe7zdoPWFCGCKHXr18CE
-googlekey=AIzaSyBjGiif3EK9CEHOXgm2waat8Q1kTXp-fns
-googlecx=e3a99a84618297ac0
+token=
+googlekey=
+googlecx=
