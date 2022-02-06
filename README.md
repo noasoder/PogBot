@@ -16,7 +16,7 @@ PogBot will return a random overwatch character artwork.
 
 Create the keys file PogBot/src/keys.txt. It should look like this with all the fields filled in:
 ```
-token=[YOUR_TOKEN]
+token=[YOUR_DISCORD_BOT_TOKEN]
 googlekey=[YOUR_API_KEY]
 googlecx=[YOUR_CONTEXT]
 ```
