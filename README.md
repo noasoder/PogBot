@@ -14,7 +14,7 @@ PogBot will return a random overwatch character artwork.
 - Set up a Custom Search Engine with Google https://cse.google.com/
 - Find your Google API key and context https://developers.google.com/custom-search/v1/introduction
 
-The [keys.txt](PogBot/src/keys.txt) should look like this with all the fields filled in:
+Create the keys file PogBot/src/keys.txt. It should look like this with all the fields filled in:
 ```
 token=[YOUR_TOKEN]
 googlekey=[YOUR_API_KEY]
