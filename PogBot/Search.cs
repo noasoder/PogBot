@@ -21,14 +21,11 @@ namespace PogBot
 
 		public static async Task<bool> SaveImageRef(string imageURL)
 		{
-			if (!File.Exists("src/saved_images.txt"))
-				File.Create("src/saved_images.txt");
-
-			var found = await Global.IsInSaved(imageURL);
+			var found = Global.IsInSaved(imageURL);
 
 			if (!found)
 			{
-				File.AppendAllText("src/saved_images.txt", imageURL + "\n");
+				File.AppendAllText(Global.saveFile, imageURL + "\n");
 			}
 
 			return found;

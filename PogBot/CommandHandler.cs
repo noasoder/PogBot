@@ -53,6 +53,12 @@ namespace PogBot
             var customSearch = message.Content;
             customSearch = customSearch.Remove(0, Global.discordCommand.Length);
 
+            if(customSearch.Equals(Global.cleanSaveCommand))
+            {
+                File.Delete(Global.saveFile);
+                await message.Channel.SendMessageAsync(Global.deletedSavesMessage);
+                return;
+            }
 
             var imageURL = await Search.GetImage(customSearch);
 

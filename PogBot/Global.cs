@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.IO;
 
 namespace PogBot
 {
@@ -14,8 +15,11 @@ namespace PogBot
 		public HttpClient Client { get; private set; }
 
 		public static string discordCommand = "pog";
+		public static string cleanSaveCommand = " -c";
+		public static string saveFile = "src/saved_images.txt";
 		public static string q = "overwatch";
 		public static string noImageMessage = "No image found:pensive::heart:";
+		public static string deletedSavesMessage = "Deleted saved images:flushed:";
 
 		private static string[] queries =
 		{
@@ -118,10 +122,14 @@ namespace PogBot
 			return File.ReadAllText(path);
 		}
 
-		public static async Task<bool> IsInSaved(string imageURL)
+		public static bool IsInSaved(string imageURL)
 		{
-			var lines = await File.ReadAllLinesAsync("src/saved_images.txt");
-			foreach (var line in lines)
+			if (!File.Exists(Global.saveFile))
+            {
+				using (File.Create(Global.saveFile)) { }
+            }
+
+			foreach (var line in ReadLines(Global.saveFile))
 			{
 				if (line.Equals(imageURL))
 				{
@@ -129,6 +137,17 @@ namespace PogBot
 				}
 			}
 			return false;
+		}
+		public static IEnumerable<string> ReadLines(string path)
+		{
+			using (StreamReader reader = File.OpenText(path))
+			{
+				string line;
+				while ((line = reader.ReadLine()) != null)
+				{
+					yield return line;
+				}
+			}
 		}
 
 		public static string Base64Encode(string plainText)

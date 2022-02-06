@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="3.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
   </ItemGroup>
 
 </Project>

@@ -34,7 +34,7 @@ namespace PogBot
 
             foreach (var image in images)
             {
-				if(!await Global.IsInSaved(image))
+				if(!Global.IsInSaved(image))
                 {
 					Console.WriteLine("ImageLink: " + image);
 					return image;

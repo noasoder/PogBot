@@ -336,3 +336,4 @@ ASALocalRun/
 # Secret keys
 PogBot/src/keys.txt
 ignore
+build
