@@ -20,3 +20,8 @@ token=[YOUR_DISCORD_BOT_TOKEN]
 googlekey=[YOUR_API_KEY]
 googlecx=[YOUR_CONTEXT]
 ```
+## Running build on linux
+```
+sudo chmod -x PogBot
+./PogBot
+```
