@@ -1,10 +1,10 @@
 # PogBot
-Discord bot that sends overwatch artworks
+Discord bot that sends Overwatch and League of Legends artworks
 
 ## Calling the bot
 Invoke the bot by sending "pog" in a server with PogBot invited.
 
-PogBot will return a random overwatch character artwork. 
+PogBot will return a random Overwatch or League of Legends character artwork. 
 
 ## Custom Search
 "pog" followed by anything will make a custom search and return an overwatch artwork based on your message.
