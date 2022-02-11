@@ -7,7 +7,7 @@ namespace PogBot
         {
 			var match = "\"kind\": \"customsearch#result\",\n";
 			var result = String.Empty;
-			var startIndex = new Random().Next(1, 91 + 1);
+			var startIndex = new Random().Next(1, Global.queriesToChooseFrom + 1);
 
 			//Get request
 			var getString = "https://www.googleapis.com/customsearch/v1?key="

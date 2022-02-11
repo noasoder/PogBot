@@ -7,9 +7,17 @@ namespace PogBot
 		{
 			var search = "";
 			if (additionalSearch.Equals(""))
-				search = Global.RandomSearchQuery();
+            {
+				var rand = new Random().Next(0, 2);
+
+				switch (rand)
+                {
+					case 0: search = Global.qOW + " " + Global.RandomSearchQuery(Global.queriesOW); break;
+					case 1: search = Global.qLOL + " " + Global.RandomSearchQuery(Global.queriesLOL); break;
+                }
+            }
 			else
-				search = Global.q + additionalSearch;
+				search = additionalSearch;
 
 			if (Global.googleSearch)
 			{
