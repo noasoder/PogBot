@@ -7,7 +7,7 @@ Invoke the bot by sending "pog" in a server with PogBot invited.
 PogBot will return a random Overwatch or League of Legends character artwork. 
 
 ## Custom Search
-"pog" followed by anything will make a custom search and return an overwatch artwork based on your message.
+"pog" followed by anything will make a custom search and return an Overwatch or LOL artwork based on your message.
 
 ## Setup
 - Set up an application with a bot on Discord https://discord.com/developers/applications and get your bot token
