@@ -1,18 +1,16 @@
-﻿
-namespace PogBot
+﻿namespace PogBot
 {
     public class GoogleSearch
     {
         public static async Task<string> GetImage(HttpClient client, string search)
         {
 			var match = "\"kind\": \"customsearch#result\",\n";
-			var result = String.Empty;
 			var startIndex = new Random().Next(1, Global.queriesToChooseFrom + 1);
 
 			//Get request
 			var getString = "https://www.googleapis.com/customsearch/v1?key="
 						+ Global.Instance.gKey + "&cx=" + Global.Instance.gCx + "&start=" + startIndex + "&q=" + search;
-			result = await client.GetStringAsync(getString);
+			var result = await client.GetStringAsync(getString);
 
 			//Console.WriteLine("Result: " + result);
 			Console.WriteLine("Search: " + search);

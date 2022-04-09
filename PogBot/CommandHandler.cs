@@ -60,7 +60,9 @@ namespace PogBot
                 return;
             }
 
-            var imageURL = await Search.GetImage(customSearch);
+            var imageSearchResult = await Search.GetImage(customSearch);
+            var searchQuery = imageSearchResult.Item1;
+            var imageURL = imageSearchResult.Item2;
 
             if (imageURL.Equals(""))
                 imageURL = Global.noImageMessage;
@@ -69,7 +71,7 @@ namespace PogBot
             else
                 await Search.SaveImageRef(imageURL);
 
-            await message.Channel.SendMessageAsync(imageURL);
+            await message.Channel.SendMessageAsync(searchQuery + "\n" + imageURL);
         }
     }
 }

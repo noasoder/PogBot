@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.IO;
 
 namespace PogBot
 {
@@ -17,8 +16,8 @@ namespace PogBot
 		public static string discordCommand = "pog";
 		public static string cleanSaveCommand = " -c";
 		public static string saveFile = "src/saved_images.txt";
-		public static string qOW = "overwatch";
-		public static string qLOL = "league of legends";
+		public static string qOW = "Overwatch";
+		public static string qLOL = "League of Legends";
 		public static string noImageMessage = "No image found:pensive::heart:";
 		public static string deletedSavesMessage = "Deleted saved images:flushed:";
 		public static int queriesToChooseFrom = 20;
@@ -253,6 +252,7 @@ namespace PogBot
 
 			return result;
 		}
+
 		public static string StringFirstToMatch(string source, string match)
 		{
 			string result = "";

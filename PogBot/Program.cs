@@ -8,7 +8,6 @@ namespace PogBot
 	{
 		private DiscordSocketClient client;
 		private CommandService commands;
-
 		private CommandHandler commandHandler;
 
 		public static Task Main(string[] args) => new Program().MainAsync();
