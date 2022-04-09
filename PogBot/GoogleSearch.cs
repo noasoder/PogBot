@@ -22,7 +22,9 @@
 			//Find all image links
 			var images = new List<string>();
 			var lastResultLength = match.Length;
-			for (int i = 0; i < 9; i++)
+			const int resultsPerPage = 9;
+
+			for (int i = 0; i < resultsPerPage; i++)
 			{
 				var oneResult = Global.StringIndexToMatch(searchBody, lastResultLength, match);
 				var oneImage = ParseToImageGoogle(oneResult);

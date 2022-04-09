@@ -20,7 +20,7 @@ namespace PogBot
 		public static string qLOL = "League of Legends";
 		public static string noImageMessage = "No image found:pensive::heart:";
 		public static string deletedSavesMessage = "Deleted saved images:flushed:";
-		public static int queriesToChooseFrom = 20;
+		public static int queriesToChooseFrom = 5;
 
 		public static string[] queriesOW =
 		{
