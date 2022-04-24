@@ -71,7 +71,8 @@ namespace PogBot
             else
                 await Search.SaveImageRef(imageURL);
 
-            await message.Channel.SendMessageAsync(searchQuery + "\n" + imageURL);
+            await message.Channel.SendMessageAsync(searchQuery);
+            await message.Channel.SendMessageAsync(imageURL);
         }
     }
 }
