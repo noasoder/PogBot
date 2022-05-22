@@ -35,9 +35,11 @@ namespace PogBot
             int argPos = 0;
             
             // Determine if the message is a command based on the prefix and make sure no bots trigger commands
-            if (!(message.HasStringPrefix(Global.discordCommand, ref argPos, StringComparison.OrdinalIgnoreCase) ||
-                message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
-                message.Author.IsBot)
+            if (message.Author.IsBot)
+                return;
+
+            if (!message.HasStringPrefix(Global.nasaCommand, ref argPos, StringComparison.OrdinalIgnoreCase) &&
+                !message.HasStringPrefix(Global.discordCommand, ref argPos, StringComparison.OrdinalIgnoreCase))
                 return;
 
             // Create a WebSocket-based command context based on the message
@@ -47,16 +49,47 @@ namespace PogBot
             // created, along with the service provider for precondition checks.
             await _commands.ExecuteAsync(
                 context: context,
-                argPos: argPos,
+                argPos: 0,
                 services: null);
 
+            if (message.HasStringPrefix(Global.nasaCommand, ref argPos, StringComparison.OrdinalIgnoreCase))
+            {
+                await HandleNasa(message);
+                return;
+            }
+            
+            if (message.HasStringPrefix(Global.discordCommand, ref argPos, StringComparison.OrdinalIgnoreCase))
+            {
+                await HandlePog(message);
+                return;
+            }
+        }
+
+        private async Task HandleNasa(SocketUserMessage message)
+        {
+            var result = await NASA.GetAPOD();
+            if (result.Item2.Equals(""))
+                result.Item2 = Global.noImageMessage;
+
+            await message.Channel.SendMessageAsync(result.Item1);
+            await message.Channel.SendMessageAsync(result.Item2);
+        }
+        
+        private async Task HandlePog(SocketUserMessage message)
+        {
             var customSearch = message.Content;
             customSearch = customSearch.Remove(0, Global.discordCommand.Length);
 
-            if(customSearch.Equals(Global.cleanSaveCommand))
+            if (customSearch.Equals(Global.cleanSaveCommand))
             {
                 File.Delete(Global.saveFile);
                 await message.Channel.SendMessageAsync(Global.deletedSavesMessage);
+                return;
+            }
+
+            if (customSearch.Equals(Global.nasaCommand, StringComparison.OrdinalIgnoreCase))
+            {
+                await HandleNasa(message);
                 return;
             }
 

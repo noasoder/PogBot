@@ -10,11 +10,13 @@ namespace PogBot
 		public string gKey = String.Empty;
 		public string gCx = String.Empty;
 		public string pToken = String.Empty;
+		public string nasaKey = String.Empty;
 
 		public HttpClient Client { get; private set; }
 
 		public static string discordCommand = "pog";
 		public static string cleanSaveCommand = " -c";
+		public static string nasaCommand = "nasa";
 		public static string saveFile = "src/saved_images.txt";
 		public static string qOW = "Overwatch";
 		public static string qLOL = "League of Legends";
@@ -216,6 +218,7 @@ namespace PogBot
 				var tokenQuery = "token=";
 				var gKeyQuery = "googlekey=";
 				var gCxQuery = "googlecx=";
+				var nasaKeyQuery = "nasakey=";
 
 				if (key.StartsWith(tokenQuery))
 				{
@@ -228,6 +231,10 @@ namespace PogBot
 				else if (key.StartsWith(gCxQuery))
 				{
 					Instance.gCx = key.Substring(gCxQuery.Length);
+				}
+				else if (key.StartsWith(nasaKeyQuery))
+				{
+					Instance.nasaKey = key.Substring(nasaKeyQuery.Length);
 				}
 			}
 
