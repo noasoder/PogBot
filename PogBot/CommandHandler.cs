@@ -74,7 +74,7 @@ namespace PogBot
             await message.Channel.SendMessageAsync(result.Item1);
             await message.Channel.SendMessageAsync(result.Item2);
         }
-        
+
         private async Task HandlePog(SocketUserMessage message)
         {
             var customSearch = message.Content;
