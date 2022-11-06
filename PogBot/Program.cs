@@ -29,7 +29,10 @@ namespace PogBot
 
 			while (Console.ReadKey().Key != ConsoleKey.Escape)
 			{
-
+				if(Console.ReadKey().Key == ConsoleKey.B)
+				{
+					await commandHandler.BuildCommands();
+				}
 			};
 
 			Global.Shutdown();

@@ -1,96 +1,85 @@
 ﻿using Discord.WebSocket;
 using Discord.Commands;
 using System.Reflection;
+using Discord;
+using Discord.Net;
+using Newtonsoft.Json;
 
 namespace PogBot
 {
     public class CommandHandler
     {
-        private readonly DiscordSocketClient _client;
-        private readonly CommandService _commands;
+        private readonly DiscordSocketClient client;
+        private readonly CommandService commands;
 
-        // Retrieve client and CommandService instance via ctor
         public CommandHandler(DiscordSocketClient client, CommandService commands)
         {
-            _commands = commands;
-            _client = client;
+            this.commands = commands;
+            this.client = client;
         }
 
         public async Task InstallCommandsAsync()
         {
-            // Hook the MessageReceived event into our command handler
-            _client.MessageReceived += HandleCommandAsync;
+            client.SlashCommandExecuted += SlashCommandHandler;
 
-            await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
+            await commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
                                             services: null);
         }
 
-        private async Task HandleCommandAsync(SocketMessage messageParam)
+        private async Task SlashCommandHandler(SocketSlashCommand command)
         {
-            // Don't process the command if it was a system message
-            var message = messageParam as SocketUserMessage;
-            if (message == null) return;
-
-            // Create a number to track where the prefix ends and the command begins
-            int argPos = 0;
-            
-            // Determine if the message is a command based on the prefix and make sure no bots trigger commands
-            if (message.Author.IsBot)
-                return;
-
-            if (!message.HasStringPrefix(Global.nasaCommand, ref argPos, StringComparison.OrdinalIgnoreCase) &&
-                !message.HasStringPrefix(Global.discordCommand, ref argPos, StringComparison.OrdinalIgnoreCase))
-                return;
-
-            // Create a WebSocket-based command context based on the message
-            var context = new SocketCommandContext(_client, message);
-
-            // Execute the command with the command context we just
-            // created, along with the service provider for precondition checks.
-            await _commands.ExecuteAsync(
-                context: context,
-                argPos: 0,
-                services: null);
-
-            if (message.HasStringPrefix(Global.nasaCommand, ref argPos, StringComparison.OrdinalIgnoreCase))
+            switch (command.Data.Name)
             {
-                await HandleNasa(message);
-                return;
+                case Global.discordCommand:
+                    await command.RespondAsync(embed: await HandlePog(command.Data.Options.Count > 0 ? (string)command.Data.Options.First().Value : ""));
+                    break;
+                case Global.nasaCommand:
+                    await command.RespondAsync(embed: await HandleNasa());
+                    break;
+                case Global.musicCommand:
+                    await command.RespondAsync(embed: await HandleMusic((string)command.Data.Options.First().Value));
+                    break;
+                default:
+
+                    break;
             }
-            
-            if (message.HasStringPrefix(Global.discordCommand, ref argPos, StringComparison.OrdinalIgnoreCase))
-            {
-                await HandlePog(message);
-                return;
-            }
+
+            return;
+        }
+        
+        private async Task<Embed> HandleMusic(string search)
+        {
+            return new EmbedBuilder()
+                .WithTitle("WIP")
+                .WithDescription($"search: {search}")
+                .Build();
         }
 
-        private async Task HandleNasa(SocketUserMessage message)
+        private static async Task<Embed> HandleNasa()
         {
             var result = await NASA.GetAPOD();
-            if (result.Item2.Equals(""))
-                result.Item2 = Global.noImageMessage;
+            if (result.Item1.Equals("") || result.Item2.Equals("") || result.Item3.Equals(""))
+            {
+                return new EmbedBuilder()
+                    .WithTitle(Global.noImageMessage)
+                    .Build();
+            }
 
-            await message.Channel.SendMessageAsync(result.Item1);
-            await message.Channel.SendMessageAsync(result.Item2);
+            return new EmbedBuilder()
+                .WithTitle(result.Item1)
+                .WithDescription(result.Item2)
+                .WithImageUrl(result.Item3)
+                .Build();
         }
 
-        private async Task HandlePog(SocketUserMessage message)
+        private async Task<Embed> HandlePog(string message)
         {
-            var customSearch = message.Content;
-            customSearch = customSearch.Remove(0, Global.discordCommand.Length);
+            var customSearch = message;
 
             if (customSearch.Equals(Global.cleanSaveCommand))
             {
                 File.Delete(Global.saveFile);
-                await message.Channel.SendMessageAsync(Global.deletedSavesMessage);
-                return;
-            }
-
-            if (customSearch.Equals(Global.nasaCommand, StringComparison.OrdinalIgnoreCase))
-            {
-                await HandleNasa(message);
-                return;
+                return new EmbedBuilder().WithTitle(Global.deletedSavesMessage).Build();
             }
 
             var imageSearchResult = await Search.GetImage(customSearch);
@@ -104,8 +93,45 @@ namespace PogBot
             else
                 await Search.SaveImageRef(imageURL);
 
-            await message.Channel.SendMessageAsync(searchQuery);
-            await message.Channel.SendMessageAsync(imageURL);
+            return new EmbedBuilder()
+                .WithTitle(searchQuery)
+                .WithImageUrl(imageURL)
+                .Build();
+        }
+
+        //Should only run when a command has been updated/added
+        public async Task BuildCommands()
+        {
+            Console.WriteLine("Building global slash commands STARTED");
+
+            var commands = new List<ApplicationCommandProperties>();
+
+            var command = new SlashCommandBuilder()
+                .WithName(Global.musicCommand)
+                .WithDescription("Searches for and plays the requested song")
+                .AddOption("search", ApplicationCommandOptionType.String, "Keyword or Spotify link", isRequired: true);
+            commands.Add(command.Build());
+
+            var pogCommand = new SlashCommandBuilder()
+                .WithName(Global.discordCommand)
+                .WithDescription("Replies with a poggers image")
+                .AddOption("search", ApplicationCommandOptionType.String, "Keyword", isRequired: false);
+            commands.Add(pogCommand.Build());
+            
+            var nasaCommand = new SlashCommandBuilder()
+                .WithName(Global.nasaCommand)
+                .WithDescription("Daily APOD from NASA");
+            commands.Add(nasaCommand.Build());
+
+            var tasks = new List<Task>();
+            foreach (var c in commands)
+            {
+                tasks.Add(client.CreateGlobalApplicationCommandAsync(c));
+            }
+
+            await Task.WhenAll(tasks.ToArray());
+            Console.WriteLine("Building global slash commands COMPLETE");
+            return;
         }
     }
 }

@@ -16,9 +16,10 @@ namespace PogBot
 
 		public HttpClient Client { get; private set; }
 
-		public static string discordCommand = "pog";
-		public static string cleanSaveCommand = " -c";
-		public static string nasaCommand = "nasa";
+		public const string discordCommand = "pog";
+		public const string cleanSaveCommand = "-c";
+		public const string nasaCommand = "nasa";
+		public const string musicCommand = "play";
 		public static string saveFile = "src/saved_images.txt";
 		public static string qOW = "Overwatch";
 		public static string qLOL = "League of Legends";
