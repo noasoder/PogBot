@@ -72,7 +72,7 @@ namespace PogBot
                 .Build();
         }
 
-        private async Task<Embed> HandlePog(string message)
+        private static async Task<Embed> HandlePog(string message)
         {
             var customSearch = message;
 
