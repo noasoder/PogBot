@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography;
+using System;
+using System.Text;
 
 namespace PogBot
 {
@@ -20,28 +22,49 @@ namespace PogBot
 		public static string saveFile = "src/saved_images.txt";
 		public static string qOW = "Overwatch";
 		public static string qLOL = "League of Legends";
+		public static string qValorant = "Valorant";
 		public static string noImageMessage = "No image found:pensive::heart:";
 		public static string deletedSavesMessage = "Deleted saved images:flushed:";
 		public static int queriesToChooseFrom = 5;
 
 		public static string[] queriesOW =
 		{
-			"Ana",
+            "Ana",
 			"Ashe",
+			"Baptiste",
+			"Bastion",
 			"Brigitte",
-			"Dva",
+			"Cassidy",
+			"D.VA",
+			"Doomfist",
 			"Echo",
+			"Genji",
+			"Hanzo",
+			"Kiriko",
+			"Junker Queen",
+			"Junkrat",
+			"Lúcio",
 			"Mei",
 			"Mercy",
 			"Moira",
 			"Orisa",
 			"Pharah",
+			"Reaper",
+			"Reinhardt",
+			"Roadhog",
+			"Sigma",
+			"Sojourn",
+			"Soldier 76",
 			"Sombra",
 			"Symmetra",
+			"Torbjörn",
 			"Tracer",
 			"Widowmaker",
+			"Winston",
+			"Wrecking Ball",
 			"Zarya",
-		};
+			"Zenyatta",
+        };
 		public static string[] queriesLOL =
 		{
 			"Aatrox",
@@ -202,6 +225,29 @@ namespace PogBot
 			"akshan",
 			"vex",
 		};
+		public static string[] queriesValorant =
+		{
+            "Brimstone",
+			"Viper",
+			"Omen",
+			"Killjoy",
+			"Cypher",
+			"Sova",
+			"Sage",
+			"Pheonix",
+			"Jett",
+			"Reyna",
+			"Raze",
+			"Breach",
+			"Skye",
+			"Yoru",
+			"Astra",
+			"KAY/O",
+			"Chamber",
+			"Neon",
+			"Fade",
+			"Harbor",
+        };
 
 		public static bool googleSearch = true;
 		public static bool pinterestSearch = false;

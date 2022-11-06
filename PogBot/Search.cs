@@ -7,12 +7,13 @@
 			var search = "";
 			if (additionalSearch.Equals(""))
             {
-				var rand = new Random().Next(0, 2);
+				var rand = new Random().Next(0, 3);
 
 				switch (rand)
                 {
 					case 0: search = Global.qOW + " " + Global.RandomSearchQuery(Global.queriesOW); break;
 					case 1: search = Global.qLOL + " " + Global.RandomSearchQuery(Global.queriesLOL); break;
+					case 2: search = Global.qValorant + " " + Global.RandomSearchQuery(Global.queriesValorant); break;
                 }
             }
 			else
