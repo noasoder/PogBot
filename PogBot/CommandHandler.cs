@@ -4,6 +4,8 @@ using System.Reflection;
 using Discord;
 using Discord.Net;
 using Newtonsoft.Json;
+using System.Diagnostics;
+using Discord.Audio;
 
 namespace PogBot
 {
@@ -26,6 +28,7 @@ namespace PogBot
                                             services: null);
         }
 
+        [Command("join", RunMode = RunMode.Async)]
         private async Task SlashCommandHandler(SocketSlashCommand command)
         {
             switch (command.Data.Name)
@@ -37,7 +40,7 @@ namespace PogBot
                     await command.RespondAsync(embed: await HandleNasa());
                     break;
                 case Global.musicCommand:
-                    await command.RespondAsync(embed: await HandleMusic((string)command.Data.Options.First().Value));
+                    HandleMusic(command);
                     break;
                 default:
 
@@ -46,13 +49,29 @@ namespace PogBot
 
             return;
         }
-        
-        private async Task<Embed> HandleMusic(string search)
+
+        [Command("join", RunMode = RunMode.Async)]
+        private async Task HandleMusic(SocketSlashCommand command)
         {
-            return new EmbedBuilder()
-                .WithTitle("WIP")
-                .WithDescription($"search: {search}")
-                .Build();
+            await command.DeferAsync();
+            var voiceChannel = (command.User as IGuildUser)?.VoiceChannel;
+            if (voiceChannel is null)
+            {
+                await command.ModifyOriginalResponseAsync(content => content.Embed = new EmbedBuilder().WithTitle("Join a voice channel to play songs").Build());
+                return;
+            }
+
+            var search = (string)command.Data.Options.First().Value;
+
+            var builder = new EmbedBuilder();
+            await command.ModifyOriginalResponseAsync(content => content.Embed = builder.AddField("Search:", search).Build());
+
+            var audioClient = await voiceChannel.ConnectAsync();
+            await command.ModifyOriginalResponseAsync(content => content.Embed = builder.AddField("Voice", "CONNECTED").Build());
+            var spotify = new Spotify();
+            await spotify.StartPlayback(audioClient);
+
+            return;
         }
 
         private static async Task<Embed> HandleNasa()
