@@ -28,7 +28,6 @@ namespace PogBot
                                             services: null);
         }
 
-        [Command("join", RunMode = RunMode.Async)]
         private async Task SlashCommandHandler(SocketSlashCommand command)
         {
             switch (command.Data.Name)
@@ -43,7 +42,6 @@ namespace PogBot
                     HandleMusic(command);
                     break;
                 default:
-
                     break;
             }
 
