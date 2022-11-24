@@ -20,6 +20,6 @@ nasakey=[NASA_API_KEY]
 ```
 ## Running build on linux(Raspberry Pi)
 ```
-sudo chmod -x PogBot
+sudo chmod a+x PogBot
 ./PogBot
 ```
