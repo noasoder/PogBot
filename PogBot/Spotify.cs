@@ -10,22 +10,22 @@ namespace PogBot
 {
     public class Spotify
     {
-        public async Task StartPlayback(IAudioClient client)
+        public static async Task StartPlayback(IAudioClient client)
         {
             await SendAsync(client, "src/AntiHero.mp3");
             return;
         }
 
-        private async Task SendAsync(IAudioClient client, string path)
+        private static async Task SendAsync(IAudioClient client, string path)
         {
             using var ffmpeg = CreateStream(path);
             using var output = ffmpeg.StandardOutput.BaseStream;
-            using var discord = client.CreatePCMStream(AudioApplication.Music);
+            using var discord = client.CreateDirectPCMStream(AudioApplication.Music);
             try { await output.CopyToAsync(discord); }
             finally { await discord.FlushAsync(); }
         }
 
-        private Process? CreateStream(string path)
+        private static Process? CreateStream(string path)
         {
             return Process.Start(new ProcessStartInfo
             {

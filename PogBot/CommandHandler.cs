@@ -11,8 +11,8 @@ namespace PogBot
 {
     public class CommandHandler
     {
-        private readonly DiscordSocketClient client;
-        private readonly CommandService commands;
+        private DiscordSocketClient client;
+        private CommandService commands;
 
         public CommandHandler(DiscordSocketClient client, CommandService commands)
         {
@@ -66,9 +66,10 @@ namespace PogBot
 
             var audioClient = await voiceChannel.ConnectAsync();
             await command.ModifyOriginalResponseAsync(content => content.Embed = builder.AddField("Voice", "CONNECTED").Build());
-            var spotify = new Spotify();
-            await spotify.StartPlayback(audioClient);
+            //var spotify = new Spotify();
+            await Spotify.StartPlayback(audioClient);
 
+            //await voiceChannel.DisconnectAsync();
             return;
         }
 
